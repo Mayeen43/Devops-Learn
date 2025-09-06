@@ -12,7 +12,7 @@ module.exports = [
       },
     },
      plugins: { js: require("@eslint/js") },
-    extends: ["js/recommended"],
+    // extends: ["js/recommended"],
     rules: {
   // Enforce consistent indentation (2 spaces)
   "indent": ["error", 2],
