@@ -9,6 +9,7 @@ jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v1.0.0
@@ -18,18 +19,24 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
+
+            echo "🔄 Updating system packages..."
             sudo apt update -y
+
+            echo "📦 Installing Node.js 18..."
             curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt install -y nodejs
-            # Check if pm2 is installed
-            if ! command -v pm2 &> /dev/null
-            then
-            echo "PM2 not found. Installing..."
-            # Install pm2 globally with npm
-            sudo npm install -g pm2
-            echo "PM2 installed successfully."
+
+            echo "⚡ Checking PM2..."
+            if ! command -v pm2 &> /dev/null; then
+              echo "PM2 not found. Installing..."
+              sudo npm install -g pm2
+              echo "✅ PM2 installed successfully."
             else
-            echo "PM2 is already installed: $(pm2 -v)"
+              echo "✅ PM2 is already installed: $(pm2 -v)"
+            fi
+
+            echo "📂 Preparing app directory..."
             if [ ! -d "/var/www/myapp/.git" ]; then
               sudo mkdir -p /var/www/myapp
               sudo chown -R $USER:$USER /var/www/myapp
@@ -37,9 +44,15 @@ jobs:
               git clone https://github.com/mdarifahammedreza/Ostad.git .
             else
               cd /var/www/myapp
+              git reset --hard
               git pull origin main
             fi
 
+            echo "📦 Installing dependencies..."
             npm install --production
+
+            echo "🚀 Restarting app with PM2..."
             pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js
             pm2 save
+
+            echo "✅ Deployment completed successfully!"
