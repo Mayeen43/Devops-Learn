@@ -1,20 +1,19 @@
-import js from "@eslint/js";
-import globals from "globals";
-import { defineConfig } from "eslint/config";
+const js = require("@eslint/js");
+const globals = require("globals");
 
-export default defineConfig([
+module.exports = [
   {
-    files: ["**/*.{js,mjs,cjs}"], // Node files
+    files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
-      sourceType: "commonjs",      // Node default
-      globals: globals.node,       // Node globals like process, __dirname
+      sourceType: "commonjs",
+      globals: globals.node,
     },
     plugins: { js },
     extends: ["js/recommended"],
   },
-  // Optional: browser files
+  // Optional: browser-specific files
   {
-    files: ["**/*.browser.js"],    // if you have browser-specific scripts
+    files: ["**/*.browser.js"],
     languageOptions: {
       globals: globals.browser,
       sourceType: "module",
@@ -22,4 +21,4 @@ export default defineConfig([
     plugins: { js },
     extends: ["js/recommended"],
   },
-]);
+];
