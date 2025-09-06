@@ -18,8 +18,14 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
-            cd /var/www/myapp
-            git pull origin main
+            if [ ! -d "/var/www/myapp" ]; then
+              mkdir -p /var/www/myapp
+              cd /var/www/myapp
+              git clone https://github.com/mdarifahammedreza/Ostad.git .
+            else
+              cd /var/www/myapp
+              git pull origin main
+            fi
             npm install --production
             pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js
             pm2 save
