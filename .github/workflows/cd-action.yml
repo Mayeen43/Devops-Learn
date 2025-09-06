@@ -22,6 +22,9 @@ jobs:
               sudo mkdir -p /var/www/myapp
               sudo chown -R $USER:$USER /var/www/myapp
               cd /var/www/myapp
+              sudo apt update -y
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt install -y nodejs
               git clone https://github.com/mdarifahammedreza/Ostad.git .
             else
               cd /var/www/myapp
