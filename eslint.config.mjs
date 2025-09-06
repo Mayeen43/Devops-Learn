@@ -1,24 +1,18 @@
+// eslint.config.cjs
 const js = require("@eslint/js");
 const globals = require("globals");
 
 module.exports = [
   {
-    files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
-      sourceType: "commonjs",
-      globals: globals.node,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
-    plugins: { js },
-    extends: ["js/recommended"],
-  },
-  // Optional: browser-specific files
-  {
-    files: ["**/*.browser.js"],
-    languageOptions: {
-      globals: globals.browser,
-      sourceType: "module",
+    rules: {
+      // your rules here
     },
-    plugins: { js },
-    extends: ["js/recommended"],
   },
+  js.configs.recommended,
 ];
