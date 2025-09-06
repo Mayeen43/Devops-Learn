@@ -4,14 +4,14 @@ const globals = require("globals");
 
 module.exports = [
   
-  {files: ["**/*.{js,mjs,cjs}"],
+  {
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
       },
     },
-     plugins: { js: require("@eslint/js") },
+    //  plugins: { js: require("@eslint/js") },
     // extends: ["js/recommended"],
     rules: {
   // Enforce consistent indentation (2 spaces)
