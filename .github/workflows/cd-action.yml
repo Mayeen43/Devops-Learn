@@ -19,7 +19,7 @@ jobs:
           script: |
             set -e
             if [ ! -d "/var/www/myapp" ]; then
-              mkdir -p /var/www/myapp
+              sudo mkdir -p /var/www/myapp
               cd /var/www/myapp
               git clone https://github.com/mdarifahammedreza/Ostad.git .
             else
