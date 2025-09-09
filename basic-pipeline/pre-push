@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Check if .env file exists in repo
+if [ -f ".env" ]; then
+  echo "❌ Push blocked: .env file detected in repository."
+  echo "Please remove it from your repo or add it to .gitignore."
+  exit 1
+fi
+
+echo "✅ No .env file found. Proceeding with push."
+exit 0
+
